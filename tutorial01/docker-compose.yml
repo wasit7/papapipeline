@@ -1,0 +1,38 @@
+version: '3.8'
+
+volumes:
+  cloudbeaver: {}
+  db: {}
+  notebooks: {}  # volume to persist notebooks
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:17.0-alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres-password
+
+  cloudbeaver:
+    container_name: cloudbeaver
+    image: dbeaver/cloudbeaver:latest
+    ports:
+      - 8978:8978
+    volumes:
+      - cloudbeaver:/opt/cloudbeaver/workspace
+
+  jupyter:
+    container_name: jupyter
+    image: jupyter/minimal-notebook:latest
+    # or 'jupyter/datascience-notebook:latest' if you want more pre-installed packages
+    volumes:
+      - notebooks:/home/jovyan/work
+    ports:
+      - 8888:8888
+    # Disable token authentication for simplicity (do this only in dev environments!)
+    command: start-notebook.sh --NotebookApp.token=''
