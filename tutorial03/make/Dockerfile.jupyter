@@ -1,0 +1,22 @@
+FROM prefecthq/prefect:3.0.0rc14-python3.11
+
+# Switch to root to install system packages
+USER root
+
+COPY requirements.txt /tmp/requirements.txt
+RUN apt-get update && \
+    apt-get -y upgrade && \
+    apt-get install -y curl git openssh-client coreutils && \
+    pip install --no-cache-dir -r /tmp/requirements.txt && \
+    # Also install JupyterLab
+    pip install --upgrade jupyterlab jupyterlab-git && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set the working directory for notebooks
+WORKDIR /home/jovyan/work
+
+# Expose JupyterLab port
+EXPOSE 8888
+
+# Run JupyterLab with no token and allow-root
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--NotebookApp.token=''", "--allow-root"]
