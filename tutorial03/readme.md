@@ -1,8 +1,3 @@
-Here is a `README.md` file for your tutorial:  
-
----
-
-```markdown
 # Prefect 3 Tutorial: Deploying and Running Flows
 
 ## Overview
