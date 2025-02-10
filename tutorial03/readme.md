@@ -1,8 +1,3 @@
-Here is a `README.md` file for your tutorial:  
-
----
-
-```markdown
 # Prefect 3 Tutorial: Deploying and Running Flows
 
 ## Overview
@@ -71,12 +66,12 @@ cd prefect_demo
 ```python
 from prefect import flow
 
-@flow
-def hello_flow():
-    print("Hello, DIS321: Big Data Infrastructure!")
+@flow(log_prints=True)
+def hello_flow(name=""):
+    print(f"Hello, {name}!")
 
 if __name__ == "__main__":
-    hello_flow()
+	hello_flow("world")
 ```
 Run the flow:
 ```sh
@@ -97,12 +92,14 @@ from prefect import flow
 if __name__ == "__main__":
     flow.from_source(
         source="https://github.com/wasit7/prefect_demo.git",
-        entrypoint="hello_flow.py:hello_flow",
+        entrypoint="01_hello/flow.py:hello_flow",
     ).deploy(
         name="my-first-deployment",
-        parameters={"key": "value"},
+        parameters={
+            'name': 'DSI: Big Data Infrastructure'
+        },
         work_pool_name="default-agent-pool",
-        cron="* * * * *",  # Runs every minute
+        cron="* * * * *",  # Run every munite
     )
 ```
 
