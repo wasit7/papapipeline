@@ -38,7 +38,7 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 cat ~/.ssh/id_ed25519.pub
 ```
 Copy the output and **add it to GitHub**:  
-👉 Go to **GitHub Settings → SSH Keys → Add a new key**  
+👉 Go to **GitHub Settings → SSH Keys → Add a new key**  or [https://github.com/settings/keys](here)
 👉 Paste the copied key and save.
 
 Test the connection:
