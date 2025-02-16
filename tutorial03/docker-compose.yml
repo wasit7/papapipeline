@@ -44,6 +44,9 @@ services:
     entrypoint: ["/wait-for-server.sh"]
     networks:
       - prefect-network
+    deploy:
+      mode: replicated
+      replicas: 2
 
   jupyter:
     build:
