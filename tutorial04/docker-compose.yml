@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong!Passw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=testuser
+      - POSTGRES_PASSWORD=testpassword
+      - POSTGRES_DB=testdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  jupyter:
+    build: ./jupyter
+    container_name: jupyter
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+    command: start-notebook.sh --NotebookApp.token='' --NotebookApp.allow_root=True
+    depends_on:
+      - mssql
+
+volumes:
+  mssql_data:
+  postgres_data:
