@@ -112,12 +112,21 @@ Git separates **staging** (what changes will be included in your next commit) fr
 ### 1.2.4 Branching and Merging
 Branches let you develop features independently of your main (production) branch.
 
-- **Create and switch to a new branch**  
+- **Create a new branch**  
   ```bash
-  git checkout -b feature_x
-  # or
   git branch feature_x
+  ```
+- **Create a new branch(and switch to a new branch)**
+  ```bash
+  git checkout -b feature_x 
+  # or
+  git switch -c feature_x
+  ```
+- **Switch to a different branch**  
+  ```bash
   git checkout feature_x
+  # or
+  git switch feature_x
   ```
 - **Merging**  
   Once your feature is complete, merge it back into the main branch:
