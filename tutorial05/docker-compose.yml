@@ -1,0 +1,19 @@
+services:
+  lakefs-dev:
+    image: treeverse/lakefs:1.7.0
+    ports:
+      - 8000:8000
+    environment:
+      LAKEFS_INSTALLATION_USER_NAME: "admin"
+      LAKEFS_INSTALLATION_ACCESS_KEY_ID: "access_key" #username
+      LAKEFS_INSTALLATION_SECRET_ACCESS_KEY: "secret_key" #password
+      LAKEFS_DATABASE_TYPE: "local"
+      LAKEFS_AUTH_ENCRYPT_SECRET_KEY: "wait"
+      LAKEFS_BLOCKSTORE_TYPE: "local"
+  jupyter:
+    container_name: jupyter
+    image: jupyter/minimal-notebook:latest
+    ports:
+      - 8888:8888
+    # Disable token authentication for simplicity (do this only in dev environments!)
+    command: start-notebook.sh --NotebookApp.token=''
