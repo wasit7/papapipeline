@@ -1,0 +1,81 @@
+services:
+  lakefs-dev:
+    image: treeverse/lakefs:1.7.0
+    ports:
+      - 8001:8000
+    environment:
+      LAKEFS_INSTALLATION_USER_NAME: "admin"
+      LAKEFS_INSTALLATION_ACCESS_KEY_ID: "access_key" #username
+      LAKEFS_INSTALLATION_SECRET_ACCESS_KEY: "secret_key" #password
+      LAKEFS_DATABASE_TYPE: "local"
+      LAKEFS_AUTH_ENCRYPT_SECRET_KEY: "wait"
+      LAKEFS_BLOCKSTORE_TYPE: "local"
+
+  postgres:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_USER=prefect
+      - POSTGRES_PASSWORD=prefect
+      - POSTGRES_DB=prefect
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # networks:
+    #   - prefect-network
+
+  prefect-server:
+    build:
+      context: ./make
+      dockerfile: Dockerfile.prefect-worker
+    command: prefect server start --host 0.0.0.0
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200/api
+      - PREFECT_SERVER_DATABASE_CONNECTION_URL=postgresql+asyncpg://prefect:prefect@postgres:5432/prefect
+    ports:
+      - "4200:4200"
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4200/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # networks:
+    #   - prefect-network
+
+  prefect-worker:
+    build:
+      context: ./make
+      dockerfile: Dockerfile.prefect-worker
+    depends_on:
+      - prefect-server
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200/api
+    volumes:
+      - ./make/wait-for-server.sh:/wait-for-server.sh:ro
+      - ./work:/home/jovyan/work:rw
+    entrypoint: ["/wait-for-server.sh"]
+    # networks:
+    #   - prefect-network
+    deploy:
+      mode: replicated
+      replicas: 2
+
+  jupyter:
+    build:
+      context: ./make
+      dockerfile: Dockerfile.jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./work:/home/jovyan/work:rw
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200/api
+    # networks:
+    #   - prefect-network
+
+volumes:
+  postgres_data:
+
+# networks:
+#   prefect-network:
+#     driver: bridge

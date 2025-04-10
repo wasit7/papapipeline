@@ -1,0 +1,9 @@
+pandas==2.2.3
+pyarrow==19.0.0
+requests==2.32.3
+kedro==0.19.11
+kedro-datasets==6.0.0
+plotly
+matplotlib
+fsspec==2025.3.2
+s3fs==2025.3.2

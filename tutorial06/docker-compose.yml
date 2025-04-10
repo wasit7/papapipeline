@@ -2,7 +2,7 @@ services:
   lakefs-dev:
     image: treeverse/lakefs:1.7.0
     ports:
-      - 8000:8000
+      - 8001:8000
     environment:
       LAKEFS_INSTALLATION_USER_NAME: "admin"
       LAKEFS_INSTALLATION_ACCESS_KEY_ID: "access_key" #username

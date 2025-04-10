@@ -1,0 +1,7 @@
+FROM prefecthq/prefect:3.0.0rc14-python3.11
+
+COPY requirements.txt /tmp/requirements.txt
+RUN apt-get update && \
+    apt-get install -y curl && \
+    pip install --no-cache-dir -r /tmp/requirements.txt && \
+    rm -rf /var/lib/apt/lists/*
