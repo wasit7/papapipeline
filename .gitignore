@@ -2,6 +2,8 @@
 mykedroproject/
 prefect_demo/
 _draft/
+_design/
+_digital_id/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
