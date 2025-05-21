@@ -19,7 +19,7 @@ This specification defines metadata for each data zone (Landing, Staging, Integr
 - **Ingestion Timestamp**: `string` (e.g., `2025-04-26T10:00:00Z`) — Ingestion time.  
 - **Quality Metrics**:  
   - **Duplicate Count**: `integer` (e.g., `200`) — Count of row-level duplicates.  
-  - **Schema Compliance**: `float` (e.g., `99.8`) — Schema match percentage.  
+
 
 **Constraints**: All fields required; `Schema Compliance` must be 0-100.
 
@@ -52,7 +52,8 @@ def calculate_duplicate_count(df):
 - **Quality Metrics**:  
   - **Completeness**: `float` (e.g., `98.5`) — Non-null percentage.  
   - **Consistency**: `float` (e.g., `99.2`) — Schema check pass rate.  
-  - **Validation Failures**: `integer` (e.g., `300`) — Failed validation count.  
+  - **Validation Failures**: `integer` (e.g., `300`) — Failed validation count.
+  - **Schema Compliance**: `float` (e.g., `99.8`) — Schema match percentage.  
 - **Business Rules Applied**: `array` (e.g., `["revenue_non_negative"]`) — Rules applied.  
 
 **Constraints**: All fields required; quality metrics must be 0-100.
