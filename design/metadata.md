@@ -70,7 +70,8 @@ def calculate_duplicate_count(df):
 - **Last Updated**: `string` (e.g., `2025-04-26T10:10:00Z`) — Last update time.  
 - **History Metrics**:  
   - **SCD Type**: `string` (e.g., `Type 2`) — Slowly Changing Dimension type.  
-  - **History Records**: `integer` (e.g., `50000`) — Total historical records.  
+  - **History Records**: `integer` (e.g., `50000`) — Total historical records.
+  - **Records Overtime**: table with columns; datetime and number of records in the integration zone.  
   - **New Records**: `integer` (e.g., `28000`) — New records added.  
   - **Updated Records**: `integer` (e.g., `1500`) — Updated records.  
 - **Quality Metrics**:  
